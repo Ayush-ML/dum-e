@@ -1,0 +1,146 @@
+<?xml version="1.0"?>
+<robot name="dum_e_arm">
+
+  <!-- ================= BASE ================= -->
+  <link name="base_link">
+    <visual>
+      <geometry><cylinder radius="0.06" length="0.05"/></geometry>
+      <origin xyz="0 0 0.025" rpy="0 0 0"/>
+    </visual>
+    <collision>
+      <geometry><cylinder radius="0.06" length="0.05"/></geometry>
+      <origin xyz="0 0 0.025" rpy="0 0 0"/>
+    </collision>
+    <inertial>
+      <mass value="1.0"/>
+      <origin xyz="0 0 0.025"/>
+      <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.002"/>
+    </inertial>
+  </link>
+
+  <!-- ================= SHOULDER (base rotation, yaw) ================= -->
+  <link name="shoulder_link">
+    <visual>
+      <geometry><box size="0.06 0.06 0.06"/></geometry>
+      <origin xyz="0 0 0.03" rpy="0 0 0"/>
+    </visual>
+    <collision>
+      <geometry><box size="0.06 0.06 0.06"/></geometry>
+      <origin xyz="0 0 0.03" rpy="0 0 0"/>
+    </collision>
+    <inertial>
+      <mass value="0.4"/>
+      <origin xyz="0 0 0.03"/>
+      <inertia ixx="0.0004" ixy="0" ixz="0" iyy="0.0004" iyz="0" izz="0.0004"/>
+    </inertial>
+  </link>
+
+  <joint name="base_rotate" type="revolute">
+    <parent link="base_link"/>
+    <child link="shoulder_link"/>
+    <origin xyz="0 0 0.05" rpy="0 0 0"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="-3.14159" upper="3.14159" effort="50.0" velocity="2.0"/>
+  </joint>
+
+  <!-- ================= UPPER ARM (shoulder pitch) ================= -->
+  <link name="upper_arm_link">
+    <visual>
+      <geometry><box size="0.05 0.05 0.25"/></geometry>
+      <origin xyz="0 0 0.125" rpy="0 0 0"/>
+    </visual>
+    <collision>
+      <geometry><box size="0.05 0.05 0.25"/></geometry>
+      <origin xyz="0 0 0.125" rpy="0 0 0"/>
+    </collision>
+    <inertial>
+      <mass value="0.5"/>
+      <origin xyz="0 0 0.125"/>
+      <inertia ixx="0.0028" ixy="0" ixz="0" iyy="0.0028" iyz="0" izz="0.0002"/>
+    </inertial>
+  </link>
+
+  <joint name="shoulder_pitch" type="revolute">
+    <parent link="shoulder_link"/>
+    <child link="upper_arm_link"/>
+    <origin xyz="0 0 0.06" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+    <limit lower="-1.5708" upper="1.5708" effort="50.0" velocity="2.0"/>
+  </joint>
+
+  <!-- ================= FOREARM (elbow pitch) ================= -->
+  <link name="forearm_link">
+    <visual>
+      <geometry><box size="0.04 0.04 0.20"/></geometry>
+      <origin xyz="0 0 0.10" rpy="0 0 0"/>
+    </visual>
+    <collision>
+      <geometry><box size="0.04 0.04 0.20"/></geometry>
+      <origin xyz="0 0 0.10" rpy="0 0 0"/>
+    </collision>
+    <inertial>
+      <mass value="0.35"/>
+      <origin xyz="0 0 0.10"/>
+      <inertia ixx="0.0014" ixy="0" ixz="0" iyy="0.0014" iyz="0" izz="0.0001"/>
+    </inertial>
+  </link>
+
+  <joint name="elbow_pitch" type="revolute">
+    <parent link="upper_arm_link"/>
+    <child link="forearm_link"/>
+    <origin xyz="0 0 0.25" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+    <limit lower="-2.6180" upper="2.6180" effort="40.0" velocity="2.5"/>
+  </joint>
+
+  <!--  ================ WRIST (pitch) ================ -->
+  <link name="wrist_link">
+    <visual>
+      <geometry><box size="0.035 0.035 0.06"/></geometry>
+      <origin xyz="0 0 0.03" rpy="0 0 0"/>
+    </visual>
+    <collision>
+      <geometry><box size="0.035 0.035 0.06"/></geometry>
+      <origin xyz="0 0 0.03" rpy="0 0 0"/>
+    </collision>
+    <inertial>
+      <mass value="0.15"/>
+      <origin xyz="0 0 0.03"/>
+      <inertia ixx="0.0001" ixy="0" ixz="0" iyy="0.0001" iyz="0" izz="0.00005"/>
+    </inertial>
+  </link>
+
+  <joint name="wrist_pitch" type="revolute">
+    <parent link="forearm_link"/>
+    <child link="wrist_link"/>
+    <origin xyz="0 0 0.20" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+    <limit lower="-1.8326" upper="1.8326" effort="20.0" velocity="3.0"/>
+  </joint>
+
+  <!-- ================= GRIPPER (single-actuator pinch, mimicked as one joint) ================= -->
+  <link name="gripper_link">
+    <visual>
+      <geometry><box size="0.03 0.08 0.04"/></geometry>
+      <origin xyz="0 0 0.02" rpy="0 0 0"/>
+    </visual>
+    <collision>
+      <geometry><box size="0.03 0.08 0.04"/></geometry>
+      <origin xyz="0 0 0.02" rpy="0 0 0"/>
+    </collision>
+    <inertial>
+      <mass value="0.1"/>
+      <origin xyz="0 0 0.02"/>
+      <inertia ixx="0.00005" ixy="0" ixz="0" iyy="0.00005" iyz="0" izz="0.00005"/>
+    </inertial>
+  </link>
+
+  <joint name="gripper_pinch" type="prismatic">
+    <parent link="wrist_link"/>
+    <child link="gripper_link"/>
+    <origin xyz="0 0 0.06" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+    <limit lower="0.0" upper="0.04" effort="15.0" velocity="0.5"/>
+  </joint>
+
+</robot>
