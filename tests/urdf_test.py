@@ -38,7 +38,7 @@ def test_movable_joint_count_and_names(loaded_robot):
 
 def test_no_joint_has_zero_inertia(loaded_robot):
     """Checks if the URDF has No Inertia"""
-    for i in range(-1, p.getNumJoints(loaded_robot)):
+    for i in range(p.getNumJoints(loaded_robot)):
         dynamics_info = p.getDynamicsInfo(loaded_robot, i)
         mass = dynamics_info[0]
         assert mass > 0.0, f"Link index {i} has zero or missing mass"
