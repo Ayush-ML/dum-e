@@ -11,6 +11,7 @@ wheels/
 
 # IDE Specific Files
 .vscode
+.pytest_cache/
 
 # Secrets
 .env

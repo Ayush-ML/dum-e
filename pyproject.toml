@@ -7,7 +7,11 @@ authors = [
     { name = "Ayush Manoj", email = "ayushmanoj279@gmail.com" }
 ]
 requires-python = ">=3.14"
-dependencies = []
+dependencies = [
+    "pybullet>=3.2.6",
+    "pyyaml>=6.0",
+    "pytest>=9.1.1",
+]
 
 [project.scripts]
 dum-e = "dum_e:main"

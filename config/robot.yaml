@@ -1,0 +1,7 @@
+# This File Contains all Hardcoded Values of the Robot in one place ot imporve modularity and code readbility
+# Simulated arm and actuator parameters.
+sim:
+  urdf_path: "urdf/dum_e_arm.urdf" # Where the robot arm mesh is stored
+  gravity_z: -9.81 # Gravity to simulate the gravity of the earth
+  max_joint_force: 50.0   # simulated torque limit, per joint
+  use_gui: true # Whether to use pybullet GUI or not
