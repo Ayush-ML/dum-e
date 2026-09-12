@@ -38,5 +38,5 @@ class Actuator(ABC):
         """set the target joint angles in radians, one per index, to the actuator backend."""
 
     @abstractmethod
-    def is_connnected(self) -> bool:
+    def is_connected(self) -> bool:
         """Check if the actuator backend is connected and test if its commandable"""
